@@ -6,7 +6,7 @@ import WorkCard from '@/components/WorkCard'
 import { useAppStore } from '@/store/appStore'
 import styles from './index.module.scss'
 
-const STATUS_FILTERS = ['全部', '制作中', '已烧成', '已入档']
+const STATUS_FILTERS = ['全部', '制作中', '制作完成', '待烧成', '已烧成', '已入档']
 
 const WorksPage = () => {
   const works = useAppStore(s => s.workList)
@@ -18,6 +18,8 @@ const WorksPage = () => {
   const setWorksFilterClay = useAppStore(s => s.setWorksFilterClay)
 
   const makingCount = works.filter(w => w.status === '制作中').length
+  const completedCount = works.filter(w => w.status === '制作完成').length
+  const pendingCount = works.filter(w => w.status === '待烧成').length
   const firedCount = works.filter(w => w.status === '已烧成').length
   const archivedCount = works.filter(w => w.status === '已入档').length
 
@@ -59,6 +61,14 @@ const WorksPage = () => {
         <View className={styles.statCard}>
           <Text className={classnames(styles.statNumber, styles.making)}>{makingCount}</Text>
           <Text className={styles.statLabel}>制作中</Text>
+        </View>
+        <View className={styles.statCard}>
+          <Text className={classnames(styles.statNumber, styles.completed)}>{completedCount}</Text>
+          <Text className={styles.statLabel}>制完</Text>
+        </View>
+        <View className={styles.statCard}>
+          <Text className={classnames(styles.statNumber, styles.pending)}>{pendingCount}</Text>
+          <Text className={styles.statLabel}>待烧</Text>
         </View>
         <View className={styles.statCard}>
           <Text className={classnames(styles.statNumber, styles.fired)}>{firedCount}</Text>

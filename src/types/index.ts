@@ -61,10 +61,15 @@ export interface Work {
   authorTitle: string
   firingId: string
   image: string
-  status: '制作中' | '已烧成' | '已入档'
+  status: '制作中' | '制作完成' | '待烧成' | '已烧成' | '已入档'
   createTime: string
   description: string
   capacity: string
+  archiveNo?: string
+  capacityRecheck?: string
+  productImage?: string
+  certificateNo?: string
+  archiveTime?: string
 }
 
 export interface Order {
@@ -90,6 +95,18 @@ export interface TraceRecord {
   date: string
   notes: string
   image: string
+}
+
+export interface ClayTransaction {
+  id: string
+  clayId: string
+  type: '入库' | '消耗'
+  weight: number
+  workId?: string
+  workName?: string
+  stepName?: string
+  source?: string
+  date: string
 }
 
 export interface MenuItem {

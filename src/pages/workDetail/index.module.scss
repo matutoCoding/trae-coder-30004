@@ -507,3 +507,259 @@
   color: $color-text-secondary;
   font-weight: $font-weight-medium;
 }
+
+.archiveSection {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 2rpx dashed $color-border-light;
+}
+
+.archiveCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xs $spacing-md;
+  padding: $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  border: 2rpx solid $color-primary;
+}
+
+.archiveCardCta {
+  margin-top: $spacing-lg;
+  padding: $spacing-md $spacing-lg;
+  background: linear-gradient(135deg, rgba($color-primary, 0.08), rgba($color-accent, 0.08));
+  border-radius: $radius-md;
+  border: 2rpx dashed rgba($color-primary, 0.4);
+
+  &:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+}
+
+.archiveCtaTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  display: block;
+}
+
+.archiveCtaHint {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  display: block;
+  margin-top: $spacing-xs;
+}
+
+.traceTimeline {
+  margin-top: $spacing-sm;
+}
+
+.traceItem {
+  display: flex;
+  position: relative;
+  margin-bottom: $spacing-md;
+}
+
+.traceLeft {
+  width: 64rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.traceDot {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-primary, $color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.traceIcon {
+  font-size: $font-size-base;
+}
+
+.traceLine {
+  flex: 1;
+  width: 4rpx;
+  background: $color-border-light;
+  margin-top: $spacing-xs;
+  min-height: 60rpx;
+}
+
+.traceCard {
+  flex: 1;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-left: $spacing-sm;
+  box-shadow: $shadow-sm;
+  border: 2rpx solid $color-border-light;
+}
+
+.traceCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.traceType {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+}
+
+.traceDate {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.traceOwner {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  display: block;
+  margin-top: $spacing-xs;
+}
+
+.traceCert {
+  font-size: $font-size-sm;
+  color: $color-accent;
+  display: block;
+  margin-top: 4rpx;
+  font-weight: $font-weight-medium;
+}
+
+.traceNotes {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  display: block;
+  margin-top: $spacing-xs;
+  line-height: $line-height-normal;
+}
+
+.traceImage {
+  width: 100%;
+  height: 240rpx;
+  border-radius: $radius-sm;
+  margin-top: $spacing-sm;
+}
+
+.modalMask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 750rpx;
+  background: $color-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding: $spacing-xl $spacing-lg $spacing-lg;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modalTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-ink;
+  text-align: center;
+  display: block;
+  margin-bottom: $spacing-lg;
+}
+
+.formRow {
+  margin-bottom: $spacing-md;
+}
+
+.formLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  display: block;
+  margin-bottom: $spacing-xs;
+  font-weight: $font-weight-medium;
+}
+
+.formInput {
+  width: 100%;
+  height: 84rpx;
+  padding: 0 $spacing-md;
+  background: $color-bg-input;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  border: 2rpx solid $color-border-light;
+
+  &:focus {
+    border-color: $color-primary;
+    background: $color-white;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+}
+
+.cancelBtn {
+  flex: 1;
+  height: 88rpx;
+  background: $color-bg-input;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active { opacity: 0.8; }
+}
+
+.cancelBtnText {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.submitBtn {
+  flex: 2;
+  height: 88rpx;
+  background: linear-gradient(135deg, $color-primary, $color-accent-dark);
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active { opacity: 0.9; }
+}
+
+.submitBtnText {
+  font-size: $font-size-base;
+  color: $color-white;
+  font-weight: $font-weight-semibold;
+}
+

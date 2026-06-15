@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 import Taro from '@tarojs/taro'
-import type { Clay, ProcessStep, Work, TraceRecord, Firing } from '@/types'
+import type { Clay, ProcessStep, Work, TraceRecord, Firing, ClayTransaction } from '@/types'
 import { clayList as initClay } from '@/data/clay'
 import { processStepList as initProcess } from '@/data/process'
 import { workList as initWork } from '@/data/work'
 import { traceList as initTrace } from '@/data/trace'
 import { firingList as initFiring } from '@/data/firing'
+import { clayTransactionList as initTrans } from '@/data/clayTransaction'
 
 interface AppState {
   clayList: Clay[]
@@ -13,15 +14,18 @@ interface AppState {
   workList: Work[]
   traceList: TraceRecord[]
   firingList: Firing[]
+  clayTransactionList: ClayTransaction[]
 
   worksFilterStatus: string
   worksFilterAuthor: string
   worksFilterClay: string
 
-  addClay: (clay: Omit<Clay, 'id'>) => void
+  addClay: (clay: Omit<Clay, 'id'>, source?: string) => void
   completeStep: (stepId: string) => void
   updateWorkStatus: (workId: string, status: Work['status']) => void
   addFiring: (firing: Omit<Firing, 'id'>) => void
+  addClayTransaction: (trans: Omit<ClayTransaction, 'id'>) => void
+  archiveWork: (workId: string, data: Partial<Work>) => void
   setWorksFilterStatus: (s: string) => void
   setWorksFilterAuthor: (s: string) => void
   setWorksFilterClay: (s: string) => void
@@ -36,6 +40,7 @@ type StoredData = {
   workList: Work[]
   traceList: TraceRecord[]
   firingList: Firing[]
+  clayTransactionList: ClayTransaction[]
   worksFilterStatus?: string
   worksFilterAuthor?: string
   worksFilterClay?: string
@@ -76,6 +81,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   workList: initWork,
   traceList: initTrace,
   firingList: initFiring,
+  clayTransactionList: initTrans,
 
   worksFilterStatus: '全部',
   worksFilterAuthor: '全部',
@@ -103,6 +109,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         workList: saved.workList,
         traceList: saved.traceList,
         firingList: saved.firingList ?? initFiring,
+        clayTransactionList: saved.clayTransactionList ?? initTrans,
         worksFilterStatus: saved.worksFilterStatus ?? '全部',
         worksFilterAuthor: saved.worksFilterAuthor ?? '全部',
         worksFilterClay: saved.worksFilterClay ?? '全部'
@@ -110,12 +117,29 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
 
-  addClay: (clay) => {
+  addClay: (clay, source = '手动登记入库') => {
     const newClay: Clay = { ...clay, id: `clay-${Date.now()}` }
     const newList = [newClay, ...get().clayList]
-    set({ clayList: newList })
-    persist({ ...get(), clayList: newList })
+
+    const trans: Omit<ClayTransaction, 'id'> = {
+      clayId: newClay.id,
+      type: '入库',
+      weight: newClay.weight,
+      source,
+      date: nowStr()
+    }
+    const newTransList = [{ ...trans, id: `trans-${Date.now()}` }, ...get().clayTransactionList]
+
+    set({ clayList: newList, clayTransactionList: newTransList })
+    persist({ ...get(), clayList: newList, clayTransactionList: newTransList })
     console.log('[Store] clay added:', newClay.name, 'total:', newList.length)
+  },
+
+  addClayTransaction: (trans) => {
+    const newTrans = { ...trans, id: `trans-${Date.now()}` }
+    const newList = [newTrans, ...get().clayTransactionList]
+    set({ clayTransactionList: newList })
+    persist({ ...get(), clayTransactionList: newList })
   },
 
   completeStep: (stepId) => {
@@ -128,6 +152,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     step.endTime = endTime
 
     let newClayList = get().clayList
+    let newTransList = get().clayTransactionList
     if (step.clayId && step.consumeWeight && step.consumeWeight > 0) {
       const target = newClayList.find(c => c.id === step.clayId)
       if (target) {
@@ -137,7 +162,19 @@ export const useAppStore = create<AppState>((set, get) => ({
           console.log(`[Store] clay consume: ${c.name} ${c.weight} - ${step.consumeWeight} = ${newWeight}`)
           return { ...c, weight: newWeight }
         })
-        set({ clayList: newClayList })
+
+        const trans: ClayTransaction = {
+          id: `trans-${Date.now()}`,
+          clayId: step.clayId,
+          type: '消耗',
+          weight: step.consumeWeight,
+          workId: step.workId,
+          workName: step.workName,
+          stepName: step.name,
+          date: endTime
+        }
+        newTransList = [trans, ...newTransList]
+        set({ clayList: newClayList, clayTransactionList: newTransList })
       }
     }
 
@@ -159,13 +196,13 @@ export const useAppStore = create<AppState>((set, get) => ({
     const allDone = workSteps.every(s => s.status === '已完成')
     if (allDone) {
       newWorks = newWorks.map(w =>
-        w.id === step.workId ? { ...w, status: '已烧成' as const } : w
+        w.id === step.workId ? { ...w, status: '制作完成' as const } : w
       )
-      console.log('[Store] all steps completed for workId:', step.workId, '→ 已烧成')
+      console.log('[Store] all steps completed for workId:', step.workId, '→ 制作完成（待入窑）')
     }
 
-    set({ processStepList: steps, workList: newWorks, clayList: newClayList })
-    persist({ ...get(), processStepList: steps, workList: newWorks, clayList: newClayList })
+    set({ processStepList: steps, workList: newWorks, clayList: newClayList, clayTransactionList: newTransList })
+    persist({ ...get(), processStepList: steps, workList: newWorks, clayList: newClayList, clayTransactionList: newTransList })
   },
 
   updateWorkStatus: (workId, status) => {
@@ -182,12 +219,27 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     let newWorks = get().workList.map(w => {
       if (w.id !== firing.workId) return w
-      const nextStatus: Work['status'] = firing.result === '成功' ? '已烧成' : w.status
+      const nextStatus: Work['status'] = firing.result === '成功' ? '已烧成' : (w.status === '制作完成' ? '待烧成' : w.status)
       console.log(`[Store] addFiring result=${firing.result} → work ${w.name} status=${nextStatus}`)
       return { ...w, firingId: newFiring.id, status: nextStatus }
     })
 
     set({ firingList: newList, workList: newWorks })
     persist({ ...get(), firingList: newList, workList: newWorks })
+  },
+
+  archiveWork: (workId, data) => {
+    const newWorks = get().workList.map(w => {
+      if (w.id !== workId) return w
+      return {
+        ...w,
+        ...data,
+        status: '已入档' as const,
+        archiveTime: nowStr()
+      }
+    })
+    set({ workList: newWorks })
+    persist({ ...get(), workList: newWorks })
+    console.log('[Store] work archived:', workId)
   }
 }))

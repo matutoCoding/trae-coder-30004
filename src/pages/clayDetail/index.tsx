@@ -3,7 +3,7 @@ import { View, Text, Input, Textarea, Picker, ScrollView, Button } from '@tarojs
 import Taro, { useRouter } from '@tarojs/taro'
 import classnames from 'classnames'
 import { useAppStore } from '@/store/appStore'
-import type { Clay } from '@/types'
+import type { Clay, ClayTransaction } from '@/types'
 import styles from './index.module.scss'
 
 const CLAY_TYPES = [
@@ -35,12 +35,18 @@ const ClayDetailPage = () => {
   const { id } = router.params
   const isAdd = !id
   const clayData = useAppStore(s => s.clayList)
+  const transList = useAppStore(s => s.clayTransactionList)
   const addClay = useAppStore(s => s.addClay)
 
   const existingClay = useMemo(() => {
     if (isAdd) return null
     return clayData.find(c => c.id === id) || null
   }, [isAdd, id, clayData])
+
+  const clayTrans = useMemo<ClayTransaction[]>(() => {
+    if (!id) return []
+    return transList.filter(t => t.clayId === id)
+  }, [id, transList])
 
   const [name, setName] = useState(existingClay?.name || '')
   const [type, setType] = useState<ClayType>(existingClay?.type as ClayType || '紫泥')
@@ -96,7 +102,7 @@ const ClayDetailPage = () => {
       status,
       notes: notes.trim(),
       color
-    })
+    }, '泥料陈腐登记入库')
     console.log('[ClayDetail] new clay added:', name, type, weight, '斤')
     Taro.showToast({ title: '登记成功', icon: 'success' })
     setTimeout(() => {
@@ -135,6 +141,53 @@ const ClayDetailPage = () => {
               <View>
                 <Text style={{ fontSize: 26, color: '#5C4A3A', fontWeight: 600, marginBottom: 12, display: 'block' }}>备注</Text>
                 <Text style={{ fontSize: 26, color: '#86909C', lineHeight: '1.8em' }}>{existingClay.notes}</Text>
+              </View>
+            )}
+          </View>
+
+          <View className={styles.transSection}>
+            <Text className={styles.transSectionTitle}>📋 库存变动流水</Text>
+            {clayTrans.length === 0 ? (
+              <View className={styles.transEmpty}>
+                <Text className={styles.transEmptyIcon}>📜</Text>
+                <Text className={styles.transEmptyText}>暂无变动记录</Text>
+              </View>
+            ) : (
+              <View className={styles.transList}>
+                {clayTrans.map(t => (
+                  <View key={t.id} className={styles.transItem}>
+                    <View className={styles.transLeft}>
+                      <View className={classnames(
+                        styles.transIconWrap,
+                        t.type === '入库' ? styles.transIn : styles.transOut
+                      )}>
+                        <Text className={styles.transIcon}>{t.type === '入库' ? '📥' : '📤'}</Text>
+                      </View>
+                    </View>
+                    <View className={styles.transContent}>
+                      <View className={styles.transRow}>
+                        <Text className={styles.transType}>{t.type === '入库' ? '入库' : '消耗'}</Text>
+                        <Text
+                          className={classnames(
+                            styles.transWeight,
+                            t.type === '入库' ? styles.transWeightIn : styles.transWeightOut
+                          )}
+                        >
+                          {t.type === '入库' ? '+' : '-'}{t.weight.toFixed(1)} 斤
+                        </Text>
+                      </View>
+                      {t.type === '消耗' && t.workName && (
+                        <Text className={styles.transSource}>
+                          用于「{t.workName}」{t.stepName ? `· ${t.stepName}` : ''}
+                        </Text>
+                      )}
+                      {t.type === '入库' && t.source && (
+                        <Text className={styles.transSource}>{t.source}</Text>
+                      )}
+                      <Text className={styles.transDate}>{t.date}</Text>
+                    </View>
+                  </View>
+                ))}
               </View>
             )}
           </View>
@@ -228,50 +281,34 @@ const ClayDetailPage = () => {
             <Text className={styles.formLabel}>
               <Text className={styles.formRequired}>*</Text>陈腐开始日期
             </Text>
-            <View className={styles.dateRow}>
-              <Picker
-                mode="date"
-                value={agingStartDate}
-                start="2000-01-01"
-                end={getToday()}
-                onChange={(e) => setAgingStartDate(e.detail.value)}
-              >
-                <View className={styles.datePicker}>
-                  {agingStartDate ? (
-                    <Text className={styles.dateText}>{agingStartDate}</Text>
-                  ) : (
-                    <Text className={styles.dateEmpty}>请选择日期</Text>
-                  )}
-                </View>
-              </Picker>
-              {agingDays > 0 && (
-                <Text style={{ fontSize: 24, color: agingDays >= 365 ? '#5B8C5A' : '#8B6F4E', fontWeight: 500, whiteSpace: 'nowrap' }}>
-                  已陈腐 {agingDays} 天
-                </Text>
-              )}
-            </View>
+            <Picker
+              mode='date'
+              value={agingStartDate}
+              onChange={(e) => setAgingStartDate(e.detail.value)}
+            >
+              <View className={styles.formInput}>
+                <Text style={{ fontSize: 28, color: '#3D2B1F' }}>{agingStartDate}</Text>
+              </View>
+            </Picker>
           </View>
 
           <View className={styles.formItem}>
             <Text className={styles.formLabel}>备注</Text>
             <Textarea
               className={styles.formTextarea}
-              placeholder="泥料特性、使用建议、来源等信息"
+              placeholder="如：矿料来源、筛目、练泥方式等"
               placeholderClass={styles.formInputPlaceholder}
               value={notes}
               onInput={(e) => setNotes(e.detail.value)}
-              maxlength={300}
-              autoHeight
+              maxlength={200}
             />
           </View>
         </View>
-      </ScrollView>
 
-      <View className={styles.footer}>
         <Button className={styles.submitBtn} onClick={handleSubmit}>
-          <Text className={styles.submitBtnText}>提交登记</Text>
+          <Text className={styles.submitBtnText}>确认登记陈腐</Text>
         </Button>
-      </View>
+      </ScrollView>
     </View>
   )
 }

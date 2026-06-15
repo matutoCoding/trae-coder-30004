@@ -13,6 +13,8 @@ const statusColorMap: Record<string, string> = {
   '已熟化': styles.clayReady,
   '已使用': styles.clayUsed,
   '制作中': styles.workMaking,
+  '制作完成': styles.workCompleted,
+  '待烧成': styles.workPendingFiring,
   '已烧成': styles.workFired,
   '已入档': styles.workArchived,
   '待确认': styles.orderPending,

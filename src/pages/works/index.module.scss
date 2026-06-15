@@ -59,7 +59,9 @@
   display: block;
 
   &.making { color: $color-primary; }
-  &.fired { color: $color-warning; }
+  &.completed { color: $color-info; }
+  &.pending { color: $color-warning; }
+  &.fired { color: $color-clay-duanni; }
   &.archived { color: $color-success; }
 }
 

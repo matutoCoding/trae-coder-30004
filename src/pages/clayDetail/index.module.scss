@@ -211,8 +211,177 @@
   color: $color-text-white;
 }
 
+.transSection {
+  margin-top: $spacing-lg;
+  background: $color-white;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.transSectionTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-ink;
+  display: block;
+  margin-bottom: $spacing-md;
+}
+
+.transEmpty {
+  text-align: center;
+  padding: $spacing-xl 0;
+}
+
+.transEmptyIcon {
+  font-size: 64rpx;
+  display: block;
+  margin-bottom: $spacing-sm;
+}
+
+.transEmptyText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.transList {
+  margin-top: $spacing-sm;
+}
+
+.transItem {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  border-bottom: 2rpx solid $color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.transLeft {
+  width: 72rpx;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 4rpx;
+}
+
+.transIconWrap {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transIn {
+  background: rgba($color-success, 0.12);
+}
+
+.transOut {
+  background: rgba($color-accent, 0.12);
+}
+
+.transIcon {
+  font-size: $font-size-base;
+}
+
+.transContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.transRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.transType {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.transWeight {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+.transWeightIn {
+  color: $color-success;
+}
+
+.transWeightOut {
+  color: $color-accent;
+}
+
+.transSource {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.transDate {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+}
+
 .detailWrap {
   padding: $spacing-lg;
+}
+
+.detailCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+}
+
+.detailCardTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-ink;
+  display: block;
+  margin-bottom: $spacing-md;
+}
+
+.detailCardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+  border-bottom: 2rpx solid $color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detailCardLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.detailCardValue {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.detailCardNotes {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 2rpx dashed $color-border-light;
 }
 
 .detailCard {
