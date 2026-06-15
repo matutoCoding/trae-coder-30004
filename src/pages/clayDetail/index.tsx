@@ -57,8 +57,23 @@ const ClayDetailPage = () => {
       Taro.showToast({ title: '请输入泥料名称', icon: 'none' })
       return false
     }
-    if (!weight || Number(weight) <= 0) {
-      Taro.showToast({ title: '请输入正确的重量', icon: 'none' })
+    const w = weight.trim()
+    if (!w) {
+      Taro.showToast({ title: '请输入泥料重量', icon: 'none' })
+      return false
+    }
+    if (w.includes('-') || w.startsWith('.')) {
+      Taro.showToast({ title: '重量不能为负或点开头', icon: 'none' })
+      return false
+    }
+    const dotCount = (w.match(/\./g) || []).length
+    if (dotCount > 1) {
+      Taro.showToast({ title: '重量不能有多个小数点', icon: 'none' })
+      return false
+    }
+    const num = Number(w)
+    if (isNaN(num) || num <= 0) {
+      Taro.showToast({ title: '请输入大于 0 的有效重量', icon: 'none' })
       return false
     }
     if (!agingStartDate) {

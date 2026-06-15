@@ -38,19 +38,24 @@ const WorkDetailPage = () => {
   }, [workSteps])
 
   const handleCompleteStep = (step: ProcessStep) => {
+    const lastStep = workSteps.length > 0 ? workSteps[workSteps.length - 1] : null
+    const isLast = lastStep && step.id === lastStep.id
+
     Taro.showModal({
       title: `完成「${step.name}」工序`,
-      content: `确定已完成 ${step.name} 步骤吗？\n确认后将自动流转到下一步骤。`,
-      confirmText: '确认完成',
+      content: isLast
+        ? `确定已完成 ${step.name} 吗？\n确认后全部工序完成，作品状态更新为"已烧成"。`
+        : `确定已完成 ${step.name} 步骤吗？\n确认后将自动流转到下一步骤。`,
+      confirmText: isLast ? '完成全部工序' : '确认完成',
       cancelText: '再等等',
       confirmColor: '#C04851',
       success: (res) => {
         if (res.confirm) {
           completeStep(step.id)
-          console.log('[WorkDetail] step completed:', step.name, 'workId:', step.workId)
+          console.log('[WorkDetail] step completed:', step.name, 'isLast:', isLast)
           Taro.showToast({
-            title: step.type === '刻绘' || step.type === '精加工' ? '全部工序完成🎉' : '工序完成',
-            icon: 'success',
+            title: isLast ? '全部工序完成🎉' : '工序完成',
+            icon: isLast ? 'success' : 'success',
             duration: 1500
           })
         }

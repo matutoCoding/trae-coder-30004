@@ -30,7 +30,7 @@ const ProcessPage = () => {
   const currentWork = useMemo(() => {
     if (!currentWorkSteps.currentStep) return null
     return works.find(w => w.id === currentWorkSteps.currentStep.workId) || null
-  }, [works, currentWorkSteps.currentStep)
+  }, [works, currentWorkSteps.currentStep])
 
   const filteredSteps = useMemo(() => {
     if (activeFilter === '全部') return processSteps
