@@ -11,7 +11,10 @@ export const processStepList: ProcessStep[] = [
     startTime: '2026-05-01 08:00',
     endTime: '2026-05-01 10:30',
     notes: '泥片厚薄均匀，约3mm，反复锤打至紧实',
-    order: 1
+    order: 1,
+    clayId: 'clay-005',
+    clayName: '底槽清',
+    consumeWeight: 0.8
   },
   {
     id: 'step-002',
@@ -95,7 +98,10 @@ export const processStepList: ProcessStep[] = [
     startTime: '2026-05-10 08:00',
     endTime: '2026-05-10 10:00',
     notes: '段泥泥片，反复拍打，泥门紧实',
-    order: 1
+    order: 1,
+    clayId: 'clay-004',
+    clayName: '黄金段泥',
+    consumeWeight: 1.0
   },
   {
     id: 'step-009',

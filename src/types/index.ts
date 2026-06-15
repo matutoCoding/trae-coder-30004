@@ -33,6 +33,9 @@ export interface ProcessStep {
   endTime: string
   notes: string
   order: number
+  clayId?: string
+  clayName?: string
+  consumeWeight?: number
 }
 
 export interface Firing {

@@ -331,3 +331,179 @@
   font-size: $font-size-md;
   color: $color-text-tertiary;
 }
+
+.claySection {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.clayInfoCard {
+  margin-top: $spacing-sm;
+  background: linear-gradient(135deg, rgba($color-primary, 0.06), rgba($color-accent, 0.06));
+  border: 2rpx solid rgba($color-primary, 0.15);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.clayName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  display: block;
+}
+
+.clayMetaLine {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.clayWeightRow {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+}
+
+.clayWeightItem {
+  text-align: center;
+  padding: 4rpx $spacing-sm;
+  background: $color-white;
+  border-radius: $radius-sm;
+}
+
+.clayWeightLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+}
+
+.clayWeightValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  display: block;
+  margin-top: 2rpx;
+}
+
+.clayWeightLow {
+  color: $color-accent;
+}
+
+.stepConsume {
+  display: inline-block;
+  margin-top: $spacing-xs;
+  padding: 6rpx 16rpx;
+  background: rgba($color-primary, 0.08);
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  color: $color-primary;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.sectionActionBtn {
+  padding: 8rpx 24rpx;
+  background: linear-gradient(135deg, rgba($color-primary, 0.08), rgba($color-accent, 0.08));
+  border-radius: $radius-round;
+  border: 2rpx solid rgba($color-primary, 0.2);
+}
+
+.sectionActionText {
+  font-size: $font-size-xs;
+  color: $color-primary-dark;
+  font-weight: $font-weight-medium;
+}
+
+.firingEmptyCard {
+  background: linear-gradient(135deg, rgba($color-accent, 0.06), rgba($color-primary, 0.06));
+  border: 2rpx dashed rgba($color-accent, 0.3);
+  border-radius: $radius-md;
+  padding: $spacing-xl $spacing-lg;
+  text-align: center;
+}
+
+.firingEmptyIcon {
+  font-size: 64rpx;
+  display: block;
+  margin-bottom: $spacing-sm;
+}
+
+.firingEmptyTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-primary-dark;
+  display: block;
+}
+
+.firingEmptyHint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: $spacing-xs;
+  display: block;
+}
+
+.firingCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+}
+
+.firingCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.firingCardDate {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+}
+
+.firingCardBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.firingCardNotes {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+  padding-top: $spacing-sm;
+  border-top: 1rpx solid $color-divider;
+}
+
+.infoTag {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-tag-bg;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-sm;
+}
+
+.infoTagLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.infoTagValue {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}

@@ -19,6 +19,7 @@ const ProcessPage = () => {
   const [activeFilter, setActiveFilter] = useState('全部')
   const processSteps = useAppStore(s => s.processStepList)
   const works = useAppStore(s => s.workList)
+  const clayList = useAppStore(s => s.clayList)
 
   const currentWorkSteps = useMemo(() => {
     const active = processSteps.find(s => s.status === '进行中')
@@ -31,6 +32,20 @@ const ProcessPage = () => {
     if (!currentWorkSteps.currentStep) return null
     return works.find(w => w.id === currentWorkSteps.currentStep.workId) || null
   }, [works, currentWorkSteps.currentStep])
+
+  const currentClayInfo = useMemo(() => {
+    if (!currentWork) return null
+    const clay = clayList.find(c => c.id === currentWork.clayId)
+    const usedSteps = currentWorkSteps.steps.filter(s => s.consumeWeight && s.consumeWeight > 0)
+    const totalUsed = usedSteps.reduce((s, x) => s + (x.consumeWeight || 0), 0)
+    const nextConsume = (() => {
+      const pending = currentWorkSteps.steps.find(s => s.status === '进行中')
+      if (pending?.consumeWeight) return pending
+      const todo = currentWorkSteps.steps.find(s => s.status === '待开始' && s.consumeWeight)
+      return todo || null
+    })()
+    return { clay, totalUsed, nextConsume, hasClay: !!clay }
+  }, [currentWork, clayList, currentWorkSteps.steps])
 
   const filteredSteps = useMemo(() => {
     if (activeFilter === '全部') return processSteps
@@ -62,6 +77,47 @@ const ProcessPage = () => {
           当前工序：{currentWorkSteps.currentStep?.name || '—'}
           {' '}· 第{currentWorkSteps.currentStep?.order || 0}步/共{currentWorkSteps.steps.length || 0}步
         </Text>
+        {currentClayInfo && (
+          <View className={styles.clayInfoBox}>
+            <View className={styles.clayInfoRow}>
+              <View>
+                <Text className={styles.clayName}>
+                  {currentClayInfo.hasClay ? currentClayInfo.clay?.name : '未关联泥料批次'}
+                </Text>
+                {currentClayInfo.hasClay && (
+                  <Text className={styles.clayMeta}>
+                    {currentClayInfo.clay?.type} · {currentClayInfo.clay?.origin}
+                  </Text>
+                )}
+              </View>
+              <View className={styles.clayWeightBlock}>
+                <View className={styles.weightItem}>
+                  <Text className={styles.weightLabel}>已消耗</Text>
+                  <Text className={styles.weightValue}>{currentClayInfo.totalUsed.toFixed(1)}斤</Text>
+                </View>
+                <View className={styles.weightDivider} />
+                <View className={styles.weightItem}>
+                  <Text className={styles.weightLabel}>剩余库存</Text>
+                  <Text
+                    className={classnames(
+                      styles.weightValue,
+                      currentClayInfo.hasClay && currentClayInfo.clay && currentClayInfo.clay.weight < 1
+                        ? styles.weightLow
+                        : styles.weightOk
+                    )}
+                  >
+                    {currentClayInfo.hasClay ? `${currentClayInfo.clay?.weight.toFixed(1)}斤` : '—'}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            {currentClayInfo.nextConsume && (
+              <Text className={styles.clayTip}>
+                下一步「{currentClayInfo.nextConsume.name}」将消耗 {currentClayInfo.nextConsume.clayName} {currentClayInfo.nextConsume.consumeWeight}斤
+              </Text>
+            )}
+          </View>
+        )}
       </View>
 
       <View className={styles.quickActions}>

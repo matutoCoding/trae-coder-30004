@@ -217,10 +217,10 @@ const ClayDetailPage = () => {
             <Input
               className={styles.formInput}
               type="digit"
-              placeholder="请输入泥料重量"
+              placeholder="请输入泥料重量（输入负数会提示重填）"
               placeholderClass={styles.formInputPlaceholder}
               value={weight}
-              onInput={(e) => setWeight(e.detail.value.replace(/[^\d.]/g, ''))}
+              onInput={(e) => setWeight(e.detail.value)}
             />
           </View>
 

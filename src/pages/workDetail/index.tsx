@@ -7,12 +7,16 @@ import { useAppStore } from '@/store/appStore'
 import type { ProcessStep } from '@/types'
 import styles from './index.module.scss'
 
+const KILN_ICONS: Record<string, string> = { '电窑': '⚡', '气窑': '🔥', '柴窑': '🪵' }
+
 const WorkDetailPage = () => {
   const router = useRouter()
   const { id } = router.params
 
   const works = useAppStore(s => s.workList)
   const allSteps = useAppStore(s => s.processStepList)
+  const firingList = useAppStore(s => s.firingList)
+  const clayList = useAppStore(s => s.clayList)
   const completeStep = useAppStore(s => s.completeStep)
 
   const work = useMemo(() => {
@@ -27,6 +31,18 @@ const WorkDetailPage = () => {
       .sort((a, b) => a.order - b.order)
   }, [id, allSteps])
 
+  const workFiringList = useMemo(() => {
+    if (!id) return []
+    return firingList.filter(f => f.workId === id)
+  }, [id, firingList])
+
+  const clayInfo = useMemo(() => {
+    if (!work) return null
+    const clay = clayList.find(c => c.id === work.clayId)
+    const used = workSteps.reduce((s, x) => s + (x.consumeWeight || 0), 0)
+    return { clay, used }
+  }, [work, clayList, workSteps])
+
   const progress = useMemo(() => {
     if (workSteps.length === 0) return { done: 0, total: 0, percent: 0 }
     const done = workSteps.filter(s => s.status === '已完成').length
@@ -40,12 +56,17 @@ const WorkDetailPage = () => {
   const handleCompleteStep = (step: ProcessStep) => {
     const lastStep = workSteps.length > 0 ? workSteps[workSteps.length - 1] : null
     const isLast = lastStep && step.id === lastStep.id
+    const willConsume = step.consumeWeight && step.consumeWeight > 0
+
+    const consumeTip = willConsume
+      ? `\n本次消耗泥料 ${step.clayName} ${step.consumeWeight} 斤。`
+      : ''
 
     Taro.showModal({
       title: `完成「${step.name}」工序`,
-      content: isLast
-        ? `确定已完成 ${step.name} 吗？\n确认后全部工序完成，作品状态更新为"已烧成"。`
-        : `确定已完成 ${step.name} 步骤吗？\n确认后将自动流转到下一步骤。`,
+      content: (isLast
+        ? `确定已完成 ${step.name} 吗？\n确认后全部工序完成。${consumeTip}`
+        : `确定已完成 ${step.name} 步骤吗？\n确认后将自动流转到下一步骤。${consumeTip}`),
       confirmText: isLast ? '完成全部工序' : '确认完成',
       cancelText: '再等等',
       confirmColor: '#C04851',
@@ -54,13 +75,23 @@ const WorkDetailPage = () => {
           completeStep(step.id)
           console.log('[WorkDetail] step completed:', step.name, 'isLast:', isLast)
           Taro.showToast({
-            title: isLast ? '全部工序完成🎉' : '工序完成',
-            icon: isLast ? 'success' : 'success',
-            duration: 1500
+            title: isLast ? '全部工序完成🎉' : (willConsume ? `已完成，扣泥 ${step.consumeWeight}斤` : '工序完成'),
+            icon: 'success',
+            duration: 1800
           })
         }
       }
     })
+  }
+
+  const openFiringPage = () => {
+    if (!id) return
+    Taro.navigateTo({ url: `/pages/firing/index?workId=${id}` })
+  }
+
+  const openTracePage = () => {
+    if (!id) return
+    Taro.navigateTo({ url: `/pages/trace/index?workId=${id}` })
   }
 
   if (!work) {
@@ -104,6 +135,30 @@ const WorkDetailPage = () => {
           </View>
         </View>
 
+        {clayInfo?.clay && (
+          <View className={styles.claySection}>
+            <Text className={styles.sectionTitle}>🪨 泥料批次</Text>
+            <View className={styles.clayInfoCard}>
+              <View>
+                <Text className={styles.clayName}>{clayInfo.clay.name}</Text>
+                <Text className={styles.clayMetaLine}>{clayInfo.clay.type} · {clayInfo.clay.origin}</Text>
+              </View>
+              <View className={styles.clayWeightRow}>
+                <View className={styles.clayWeightItem}>
+                  <Text className={styles.clayWeightLabel}>已用</Text>
+                  <Text className={styles.clayWeightValue}>—{clayInfo.used.toFixed(1)}斤</Text>
+                </View>
+                <View className={styles.clayWeightItem}>
+                  <Text className={styles.clayWeightLabel}>库存</Text>
+                  <Text className={classnames(styles.clayWeightValue, clayInfo.clay.weight < 1 && styles.clayWeightLow)}>
+                    {clayInfo.clay.weight.toFixed(1)}斤
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        )}
+
         <View className={styles.description}>
           <Text className={styles.descLabel}>作品描述</Text>
           <Text className={styles.descText}>{work.description}</Text>
@@ -139,12 +194,6 @@ const WorkDetailPage = () => {
             const isLast = idx === workSteps.length - 1
             const isDone = step.status === '已完成'
             const isActive = step.status === '进行中'
-            const nextStatus = isDone
-              ? '已完成：打身筒→镶接工序自动流转'
-              : isActive
-                ? '进行中：明针修坯工序完成后自动更新作品状态'
-                : '待开始'
-            console.log('[debug] step rendering:', step.name, 'status:', step.status, nextStatus)
 
             return (
               <View key={step.id} className={styles.stepItem}>
@@ -199,6 +248,12 @@ const WorkDetailPage = () => {
                       <Text className={styles.stepNotes}>{step.notes}</Text>
                     )}
 
+                    {step.consumeWeight && step.consumeWeight > 0 && (
+                      <Text className={styles.stepConsume}>
+                        🔧 消耗 {step.clayName || '泥料'} {step.consumeWeight}斤
+                      </Text>
+                    )}
+
                     {isDone && (
                       <View className={styles.stepActionWrap}>
                         <Text className={styles.stepDoneTag}>✓ 本步已完成</Text>
@@ -228,6 +283,56 @@ const WorkDetailPage = () => {
               </View>
             )
           })}
+        </View>
+      </View>
+
+      <View className={styles.section}>
+        <View className={styles.sectionTitleRow}>
+          <Text className={styles.sectionTitleText}>烧成记录</Text>
+          <View className={styles.sectionActionBtn} onClick={openFiringPage}>
+            <Text className={styles.sectionActionText}>录入入窑记录 +</Text>
+          </View>
+        </View>
+
+        {workFiringList.length === 0 ? (
+          <View className={styles.firingEmptyCard} onClick={openFiringPage}>
+            <Text className={styles.firingEmptyIcon}>🔥</Text>
+            <Text className={styles.firingEmptyTitle}>暂无入窑记录</Text>
+            <Text className={styles.firingEmptyHint}>点击此处为「{work.name}」补一条烧成记录</Text>
+          </View>
+        ) : (
+          workFiringList.map(firing => (
+            <View key={firing.id} className={styles.firingCard}>
+              <View className={styles.firingCardHeader}>
+                <StatusTag status={firing.result} type="firing" />
+                <Text className={styles.firingCardDate}>{firing.date}</Text>
+              </View>
+              <View className={styles.firingCardBody}>
+                <View className={styles.infoTag}>
+                  <Text className={styles.infoTagLabel}>{KILN_ICONS[firing.kilnType]} 窑型</Text>
+                  <Text className={styles.infoTagValue}>{firing.kilnType}</Text>
+                </View>
+                <View className={styles.infoTag}>
+                  <Text className={styles.infoTagLabel}>温度</Text>
+                  <Text className={styles.infoTagValue}>{firing.temperature}°C</Text>
+                </View>
+                <View className={styles.infoTag}>
+                  <Text className={styles.infoTagLabel}>时长</Text>
+                  <Text className={styles.infoTagValue}>{firing.duration}h</Text>
+                </View>
+              </View>
+              {firing.notes && <Text className={styles.firingCardNotes}>{firing.notes}</Text>}
+            </View>
+          ))
+        )}
+      </View>
+
+      <View className={styles.section}>
+        <View className={styles.sectionTitleRow}>
+          <Text className={styles.sectionTitleText}>溯源与养壶</Text>
+          <View className={styles.sectionActionBtn} onClick={openTracePage}>
+            <Text className={styles.sectionActionText}>查看收藏溯源 →</Text>
+          </View>
         </View>
       </View>
 

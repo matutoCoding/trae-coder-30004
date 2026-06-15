@@ -64,6 +64,85 @@
   color: $color-text-tertiary;
 }
 
+.clayInfoBox {
+  background: rgba($color-primary, 0.08);
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  margin-top: $spacing-md;
+  border-left: 6rpx solid $color-primary;
+}
+
+.clayInfoRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.clayName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  display: block;
+}
+
+.clayMeta {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.clayWeightBlock {
+  display: flex;
+  align-items: center;
+  background: $color-white;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+}
+
+.weightItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100rpx;
+}
+
+.weightLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.weightValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  margin-top: 4rpx;
+}
+
+.weightOk {
+  color: $color-primary;
+}
+
+.weightLow {
+  color: $color-accent;
+}
+
+.weightDivider {
+  width: 2rpx;
+  height: 48rpx;
+  background: rgba($color-ink, 0.08);
+  margin: 0 $spacing-md;
+}
+
+.clayTip {
+  margin-top: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $color-accent;
+  display: block;
+  padding-top: $spacing-xs;
+  border-top: 1rpx dashed rgba($color-primary, 0.2);
+}
+
 .filterRow {
   display: flex;
   padding: $spacing-md $spacing-lg;
