@@ -1,0 +1,140 @@
+@use '@/styles/variables.scss' as *;
+
+.orderPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.filterRow {
+  display: flex;
+  padding: $spacing-lg;
+  gap: $spacing-sm;
+}
+
+.filterBtn {
+  padding: $spacing-xs $spacing-lg;
+  border-radius: $radius-round;
+  background: $color-bg-card;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: all $transition-base;
+}
+
+.filterBtnActive {
+  background: $color-primary;
+  color: $color-text-white;
+}
+
+.content {
+  padding: 0 $spacing-lg $spacing-xl;
+}
+
+.orderCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.95;
+    transform: scale(0.99);
+  }
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.orderWorkName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  flex: 1;
+  @include text-ellipsis;
+  margin-right: $spacing-sm;
+}
+
+.orderBody {
+  margin-bottom: $spacing-md;
+}
+
+.orderRow {
+  display: flex;
+  align-items: flex-start;
+  padding: $spacing-xs 0;
+}
+
+.orderLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  width: 140rpx;
+  flex-shrink: 0;
+}
+
+.orderValue {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  flex: 1;
+}
+
+.engravingSection {
+  background: $color-bg-page;
+  border-radius: $radius-sm;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.engravingLabel {
+  font-size: $font-size-xs;
+  color: $color-accent;
+  font-weight: $font-weight-medium;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.engravingText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.orderFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-sm;
+  border-top: 1rpx solid $color-divider;
+}
+
+.orderPrice {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.orderPriceUnit {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+}
+
+.orderDeadline {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.emptyState {
+  @include flex-center;
+  flex-direction: column;
+  padding: 120rpx 0;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}

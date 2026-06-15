@@ -1,0 +1,83 @@
+@use '@/styles/variables.scss' as *;
+
+.stepCard {
+  display: flex;
+  gap: $spacing-md;
+  min-height: 120rpx;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32rpx;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: $radius-round;
+  background: $color-border;
+  flex-shrink: 0;
+  margin-top: 8rpx;
+}
+
+.dotDone {
+  background: $color-success;
+}
+
+.dotActive {
+  background: $color-accent;
+  box-shadow: 0 0 0 6rpx rgba($color-accent, 0.2);
+}
+
+.dotPending {
+  background: $color-border;
+}
+
+.line {
+  width: 4rpx;
+  flex: 1;
+  background: $color-border;
+  margin: $spacing-xs 0;
+}
+
+.stepContent {
+  flex: 1;
+  padding-bottom: $spacing-lg;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-xs;
+}
+
+.stepName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.workName {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-xs;
+  display: block;
+}
+
+.timeInfo {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.stepNotes {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+  display: block;
+}

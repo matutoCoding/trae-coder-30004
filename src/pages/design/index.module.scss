@@ -1,0 +1,123 @@
+@use '@/styles/variables.scss' as *;
+
+.designPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.filterRow {
+  display: flex;
+  padding: $spacing-lg;
+  gap: $spacing-sm;
+}
+
+.filterBtn {
+  padding: $spacing-xs $spacing-lg;
+  border-radius: $radius-round;
+  background: $color-bg-card;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: all $transition-base;
+}
+
+.filterBtnActive {
+  background: $color-primary;
+  color: $color-text-white;
+}
+
+.content {
+  padding: 0 $spacing-lg $spacing-xl;
+}
+
+.designCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.95;
+    transform: scale(0.99);
+  }
+}
+
+.designImage {
+  width: 100%;
+  height: 300rpx;
+  display: block;
+}
+
+.designInfo {
+  padding: $spacing-md $spacing-lg $spacing-lg;
+}
+
+.designName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.designMeta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.styleTag {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  background: rgba($color-primary, 0.08);
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  white-space: nowrap;
+}
+
+.difficultyTag {
+  font-size: $font-size-xs;
+  color: $color-accent;
+  background: rgba($color-accent, 0.08);
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  white-space: nowrap;
+}
+
+.designDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+  @include text-ellipsis-multi(2);
+}
+
+.designFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: $spacing-sm;
+}
+
+.designAuthor {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.designTime {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+}
+
+.emptyState {
+  @include flex-center;
+  flex-direction: column;
+  padding: 120rpx 0;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}

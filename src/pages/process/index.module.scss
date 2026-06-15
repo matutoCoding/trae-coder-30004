@@ -1,0 +1,140 @@
+@use '@/styles/variables.scss' as *;
+
+.processPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  padding: $spacing-xl $spacing-lg $spacing-xxl;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -40rpx;
+    left: 0;
+    right: 0;
+    height: 80rpx;
+    background: $color-bg-page;
+    border-radius: 50% 50% 0 0;
+  }
+}
+
+.headerTitle {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  margin-bottom: $spacing-xs;
+}
+
+.headerSubtitle {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.currentWork {
+  margin: 0 $spacing-lg;
+  margin-top: $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  position: relative;
+  z-index: 1;
+}
+
+.currentWorkLabel {
+  font-size: $font-size-xs;
+  color: $color-accent;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-xs;
+}
+
+.currentWorkName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.currentWorkInfo {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.filterRow {
+  display: flex;
+  padding: $spacing-md $spacing-lg;
+  gap: $spacing-sm;
+}
+
+.filterBtn {
+  padding: $spacing-xs $spacing-lg;
+  border-radius: $radius-round;
+  background: $color-bg-card;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  white-space: nowrap;
+  transition: all $transition-base;
+}
+
+.filterBtnActive {
+  background: $color-primary;
+  color: $color-text-white;
+}
+
+.content {
+  padding: 0 $spacing-lg $spacing-xl;
+}
+
+.timelineWrap {
+  margin-top: $spacing-sm;
+}
+
+.quickActions {
+  display: flex;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  margin: 0 $spacing-lg $spacing-md;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+}
+
+.actionBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm 0;
+  border-radius: $radius-sm;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.actionIcon {
+  font-size: 40rpx;
+}
+
+.actionLabel {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}
+
+.emptyState {
+  @include flex-center;
+  flex-direction: column;
+  padding: 120rpx 0;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-top: $spacing-md;
+}

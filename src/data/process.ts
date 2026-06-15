@@ -1,0 +1,124 @@
+import type { ProcessStep } from '@/types'
+
+export const processStepList: ProcessStep[] = [
+  {
+    id: 'step-001',
+    name: '打泥片',
+    type: '打泥片',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '已完成',
+    startTime: '2026-05-01 08:00',
+    endTime: '2026-05-01 10:30',
+    notes: '泥片厚薄均匀，约3mm，反复锤打至紧实',
+    order: 1
+  },
+  {
+    id: 'step-002',
+    name: '打身筒',
+    type: '打身筒',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '已完成',
+    startTime: '2026-05-01 14:00',
+    endTime: '2026-05-01 17:00',
+    notes: '围筑身筒，拍打成型，三角形壶身初具',
+    order: 2
+  },
+  {
+    id: 'step-003',
+    name: '镶接壶底',
+    type: '镶接',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '已完成',
+    startTime: '2026-05-02 08:30',
+    endTime: '2026-05-02 11:00',
+    notes: '壶底镶接平整，泥条衔接紧密，无明显接缝',
+    order: 3
+  },
+  {
+    id: 'step-004',
+    name: '明针修坯',
+    type: '明针修坯',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '进行中',
+    startTime: '2026-05-03 09:00',
+    endTime: '',
+    notes: '明针反复刮压，壶身光洁紧实，线条利落',
+    order: 4
+  },
+  {
+    id: 'step-005',
+    name: '装嘴把',
+    type: '装嘴把',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '待开始',
+    startTime: '',
+    endTime: '',
+    notes: '安装直嘴与耳把，三点一线，比例协调',
+    order: 5
+  },
+  {
+    id: 'step-006',
+    name: '精加工',
+    type: '精加工',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '待开始',
+    startTime: '',
+    endTime: '',
+    notes: '钮、口、底精细修整，确保各部位完美',
+    order: 6
+  },
+  {
+    id: 'step-007',
+    name: '刻绘',
+    type: '刻绘',
+    workId: 'work-001',
+    workName: '石瓢壶',
+    status: '待开始',
+    startTime: '',
+    endTime: '',
+    notes: '壶身刻绘"茶亦醉人"四字，行书体',
+    order: 7
+  },
+  {
+    id: 'step-008',
+    name: '打泥片',
+    type: '打泥片',
+    workId: 'work-002',
+    workName: '仿古壶',
+    status: '已完成',
+    startTime: '2026-05-10 08:00',
+    endTime: '2026-05-10 10:00',
+    notes: '段泥泥片，反复拍打，泥门紧实',
+    order: 1
+  },
+  {
+    id: 'step-009',
+    name: '打身筒',
+    type: '打身筒',
+    workId: 'work-002',
+    workName: '仿古壶',
+    status: '已完成',
+    startTime: '2026-05-10 13:30',
+    endTime: '2026-05-10 16:30',
+    notes: '扁圆形身筒，收肩转腹，弧度自然',
+    order: 2
+  },
+  {
+    id: 'step-010',
+    name: '明针修坯',
+    type: '明针修坯',
+    workId: 'work-002',
+    workName: '仿古壶',
+    status: '进行中',
+    startTime: '2026-05-11 09:00',
+    endTime: '',
+    notes: '壶身明针精修，表面光润如玉',
+    order: 3
+  }
+]
