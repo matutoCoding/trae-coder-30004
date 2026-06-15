@@ -177,3 +177,19 @@
   color: $color-text-tertiary;
   line-height: $line-height-loose;
 }
+
+.aboutDescWrap {
+  text-align: left;
+}
+
+.aboutDescLine {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+  display: block;
+  margin-bottom: $spacing-xs;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

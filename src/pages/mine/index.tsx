@@ -1,9 +1,7 @@
 import React from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { workList } from '@/data/work'
-import { orderList } from '@/data/order'
-import { clayList } from '@/data/clay'
+import { useAppStore } from '@/store/appStore'
 import styles from './index.module.scss'
 
 const MENU_ITEMS = [
@@ -16,8 +14,15 @@ const MENU_ITEMS = [
 ]
 
 const MinePage = () => {
-  const totalWorks = workList.length
-  const totalOrders = orderList.length
+  const works = useAppStore(s => s.workList)
+  const clayList = useAppStore(s => s.clayList)
+  const orders = [
+    { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 },
+    { id: 6 }, { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 }
+  ]
+
+  const totalWorks = works.length
+  const totalOrders = orders.length
   const totalClay = clayList.length
 
   const handleMenuClick = (path: string) => {
@@ -73,11 +78,11 @@ const MinePage = () => {
       <View className={styles.aboutSection}>
         <View className={styles.aboutCard}>
           <Text className={styles.aboutTitle}>紫砂工坊</Text>
-          <Text className={styles.aboutDesc}>
-            传承千年紫砂技艺，以匠人之心制器。{'\n'}
-            记录每一块泥料的陈腐，每一道工序的匠心，{'\n'}
-            每一件作品的诞生与流转。
-          </Text>
+          <View className={styles.aboutDescWrap}>
+            <Text className={styles.aboutDescLine}>传承千年紫砂技艺，以匠人之心制器。</Text>
+            <Text className={styles.aboutDescLine}>记录每一块泥料的陈腐，每一道工序的匠心，</Text>
+            <Text className={styles.aboutDescLine}>每一件作品的诞生与流转。</Text>
+          </View>
         </View>
       </View>
     </ScrollView>

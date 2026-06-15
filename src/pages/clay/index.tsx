@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro'
 import classnames from 'classnames'
 import SectionHeader from '@/components/SectionHeader'
 import ClayCard from '@/components/ClayCard'
-import { clayList } from '@/data/clay'
+import { useAppStore } from '@/store/appStore'
 import styles from './index.module.scss'
 
 const CLAY_TYPES = ['全部', '紫泥', '朱泥', '段泥', '绿泥', '底槽清', '拼紫']
@@ -12,18 +12,19 @@ const CLAY_TYPES = ['全部', '紫泥', '朱泥', '段泥', '绿泥', '底槽清
 const ClayPage = () => {
   const [activeType, setActiveType] = useState('全部')
   const [searchKeyword, setSearchKeyword] = useState('')
+  const clayStoreList = useAppStore(s => s.clayList)
 
   const filteredClayList = useMemo(() => {
-    return clayList.filter(item => {
+    return clayStoreList.filter(item => {
       const matchType = activeType === '全部' || item.type === activeType
       const matchSearch = !searchKeyword || item.name.includes(searchKeyword) || item.origin.includes(searchKeyword)
       return matchType && matchSearch
     })
-  }, [activeType, searchKeyword])
+  }, [activeType, searchKeyword, clayStoreList])
 
-  const agingCount = clayList.filter(c => c.status === '陈腐中').length
-  const readyCount = clayList.filter(c => c.status === '已熟化').length
-  const totalCount = clayList.length
+  const agingCount = clayStoreList.filter(c => c.status === '陈腐中').length
+  const readyCount = clayStoreList.filter(c => c.status === '已熟化').length
+  const totalCount = clayStoreList.length
 
   const handleAdd = () => {
     Taro.navigateTo({ url: '/pages/clayDetail/index' })
@@ -82,7 +83,7 @@ const ClayPage = () => {
           filteredClayList.map(clay => <ClayCard key={clay.id} clay={clay} />)
         ) : (
           <View className={styles.emptyState}>
-            <Text className={styles.emptyText}>暂无匹配的泥料</Text>
+            <Text className={styles.emptyText}>暂无匹配的泥料，点击右下角+新增</Text>
           </View>
         )}
       </View>

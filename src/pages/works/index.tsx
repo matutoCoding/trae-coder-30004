@@ -3,26 +3,27 @@ import { View, Text, ScrollView } from '@tarojs/components'
 import classnames from 'classnames'
 import SectionHeader from '@/components/SectionHeader'
 import WorkCard from '@/components/WorkCard'
-import { workList } from '@/data/work'
+import { useAppStore } from '@/store/appStore'
 import styles from './index.module.scss'
 
 const STATUS_FILTERS = ['全部', '制作中', '已烧成', '已入档']
 
 const WorksPage = () => {
   const [activeStatus, setActiveStatus] = useState('全部')
+  const works = useAppStore(s => s.workList)
 
   const filteredWorks = useMemo(() => {
-    if (activeStatus === '全部') return workList
-    return workList.filter(w => w.status === activeStatus)
-  }, [activeStatus])
+    if (activeStatus === '全部') return works
+    return works.filter(w => w.status === activeStatus)
+  }, [activeStatus, works])
 
-  const makingCount = workList.filter(w => w.status === '制作中').length
-  const firedCount = workList.filter(w => w.status === '已烧成').length
-  const archivedCount = workList.filter(w => w.status === '已入档').length
+  const makingCount = works.filter(w => w.status === '制作中').length
+  const firedCount = works.filter(w => w.status === '已烧成').length
+  const archivedCount = works.filter(w => w.status === '已入档').length
 
   const authorMap = useMemo(() => {
     const map = new Map<string, { name: string; title: string; count: number }>()
-    workList.forEach(w => {
+    works.forEach(w => {
       const existing = map.get(w.author)
       if (existing) {
         existing.count += 1
@@ -31,7 +32,7 @@ const WorksPage = () => {
       }
     })
     return Array.from(map.values())
-  }, [])
+  }, [works])
 
   return (
     <ScrollView className={styles.worksPage} scrollY>

@@ -3,23 +3,331 @@
 .workDetailPage {
   min-height: 100vh;
   background: $color-bg-page;
+}
+
+.heroImage {
+  width: 100%;
+  height: 500rpx;
+  display: block;
+}
+
+.infoCard {
+  margin: -40rpx $spacing-lg 0;
+  position: relative;
+  z-index: 1;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.workTitle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.workName {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1.3;
+}
+
+.workMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.metaTag {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  background: $color-tag-bg;
+  padding: 6rpx 20rpx;
+  border-radius: $radius-round;
+}
+
+.authorSection {
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.authorAvatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
   @include flex-center;
-  flex-direction: column;
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  flex-shrink: 0;
 }
 
-.placeholderIcon {
-  font-size: 80rpx;
-  margin-bottom: $spacing-lg;
+.authorInfo {
+  flex: 1;
 }
 
-.placeholderTitle {
+.authorName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  display: block;
+}
+
+.authorTitle {
+  font-size: $font-size-sm;
+  color: $color-accent;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.description {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.descLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.descText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.section {
+  margin: $spacing-md $spacing-lg;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitleText {
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   color: $color-text-primary;
+  padding-left: $spacing-sm;
+  border-left: 6rpx solid $color-primary;
+}
+
+.progressCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-lg;
+  box-shadow: $shadow-card;
   margin-bottom: $spacing-sm;
 }
 
-.placeholderDesc {
+.progressInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.progressText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.progressPercent {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.progressBar {
+  height: 16rpx;
+  background: $color-bg-page;
+  border-radius: $radius-round;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, $color-primary-light 0%, $color-primary 100%);
+  border-radius: $radius-round;
+  transition: width 0.4s ease;
+}
+
+.stepsWrap {
+  margin-top: $spacing-md;
+}
+
+.stepItem {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.stepLeft {
+  width: 36rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8rpx;
+}
+
+.stepDot {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: $radius-round;
+  flex-shrink: 0;
+  border: 4rpx solid $color-border;
+  background: $color-bg-card;
+  transition: all $transition-base;
+}
+
+.stepDotDone {
+  background: $color-success;
+  border-color: $color-success;
+  @include flex-center;
+
+  &::after {
+    content: '✓';
+    color: $color-text-white;
+    font-size: 18rpx;
+    font-weight: bold;
+    line-height: 1;
+  }
+}
+
+.stepDotActive {
+  background: $color-accent;
+  border-color: $color-accent;
+  box-shadow: 0 0 0 8rpx rgba($color-accent, 0.15);
+}
+
+.stepLine {
+  width: 4rpx;
+  flex: 1;
+  min-height: 40rpx;
+  background: $color-border;
+  margin: $spacing-xs 0;
+}
+
+.stepLineDone {
+  background: $color-success;
+}
+
+.stepRight {
+  flex: 1;
+  padding-bottom: $spacing-lg;
+}
+
+.stepCard {
+  background: $color-bg-card;
+  border-radius: $radius-sm;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  border: 2rpx solid transparent;
+  transition: all $transition-base;
+}
+
+.stepCardActive {
+  border-color: rgba($color-accent, 0.3);
+  background: rgba($color-accent, 0.02);
+}
+
+.stepCardDone {
+  background: rgba($color-success, 0.03);
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-xs;
+}
+
+.stepName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.stepOrder {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  background: $color-bg-page;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+}
+
+.stepTime {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.stepNotes {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+}
+
+.stepActionWrap {
+  margin-top: $spacing-sm;
+}
+
+.stepActionBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-md;
+  background: linear-gradient(135deg, $color-accent 0%, $color-accent-light 100%);
+  border-radius: $radius-button;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.stepActionBtnText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+}
+
+.stepDoneTag {
+  font-size: $font-size-xs;
+  color: $color-success;
+  font-weight: $font-weight-medium;
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.emptyWrap {
+  @include flex-center;
+  flex-direction: column;
+  padding: 120rpx 0;
+}
+
+.emptyIcon {
+  font-size: 80rpx;
+  margin-bottom: $spacing-md;
+}
+
+.emptyText {
   font-size: $font-size-md;
   color: $color-text-tertiary;
 }
